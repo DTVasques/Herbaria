@@ -1,0 +1,33 @@
+---
+title: "Herbaria in Japan"
+author: "Diego T. Vasques"
+date: "7/7/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This study gathers information about herbaria in Japan, in hope of creating a comprehensive analysis of how many herbaria exist, where are they located and what kinds of collections they hold.
+
+## Install libraries
+
+```{r}
+library("ggplot2")
+theme_set(theme_bw())
+library("sf")
+library("rnaturalearth")
+library("rnaturalearthdata")
+library(rgbif)
+```
+
+## Import and view data from csv file
+
+```{r}
+library(readr)
+data <- read_csv("herbaria_data.csv")
+View(data)
+```
