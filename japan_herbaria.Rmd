@@ -1,0 +1,81 @@
+---
+title: "Herbaria in Japan"
+author: "Diego T. Vasques"
+date: "7/7/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This study gathers information about herbaria in Japan, in hope of creating a comprehensive analysis of how many herbaria exist, where are they located and what kinds of collections they hold.
+
+## Install libraries
+
+```{r}
+library("ggplot2")
+theme_set(theme_bw())
+library("sf")
+library("rnaturalearth")
+library("rnaturalearthdata")
+library(rgbif)
+```
+
+## Import and view data from csv file
+
+```{r}
+library(readr)
+data <- read_csv("herbaria_data.csv")
+View(data)
+```
+
+## Plot herbaria on the map 
+## Comparing foundation date
+
+```{r}
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+class(world)
+
+buff <- 1   #a buffer of one degree around the raster
+
+xmin <- min(data$longitude) - buff
+xmax <- max(data$longitude) + buff
+ymin <- min(data$latitude) - buff
+ymax <- max(data$latitude) + buff
+
+ggplot(data = world) +
+  geom_sf(fill = "white") +
+  geom_point(data = data, aes(x = longitude, y = latitude, fill = `Founded`, color = `Founded`), color = "black", shape = 21, size = 1.5) + 
+  scale_fill_gradient(low = "white", high = "black", limits = c (1850, 2020), breaks = c(1850,1900, 1925, 1950, 1975, 2000, 2020)) +
+  scale_color_gradient(low = "white", high = "black", limits = c (1850, 2020), breaks = c(1850,1900, 1925, 1950, 1975, 2000, 2020)) +
+  coord_sf(xlim = c(xmin, xmax), ylim = c(ymin, ymax)) + ggtitle('Herbaria foundation year')
+```
+## Plot herbaria on the map 
+## Comparing specimens number
+
+```{r}
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+class(world)
+
+buff <- 1   #a buffer of one degree around the raster
+
+xmin <- min(data$longitude) - buff
+xmax <- max(data$longitude) + buff
+ymin <- min(data$latitude) - buff
+ymax <- max(data$latitude) + buff
+
+ggplot(data = world) +
+  geom_sf(fill = "white") +
+  geom_point(data = data, aes(x = longitude, y = latitude, fill = `specimens`, color = `specimens`), color = "black", shape = 21, size = 1.5) + 
+  scale_fill_gradient(low = "white", high = "black") +
+  scale_color_gradient(low = "white", high = "black") +
+  coord_sf(xlim = c(xmin, xmax), ylim = c(ymin, ymax)) + ggtitle('Herbaria specimens')
+```
+
+
+
