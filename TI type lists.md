@@ -1,6 +1,6 @@
 # install packages
-install.packages("officer", dependencies = TRUE)
-install.packages("tidyverse", dependencies = TRUE)
+>install.packages("officer", dependencies = TRUE)
+>install.packages("tidyverse", dependencies = TRUE)
 
 # Load required libraries
 library(officer)
